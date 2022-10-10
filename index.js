@@ -8,10 +8,13 @@ import {
   Text,
   View,
   VrButton,
+  VideoControl,
+  MediaPlayerState,
   Video,
   Image,
   asset,
 } from "react-360";
+const EventEmitter = require("EventEmitter");
 const Linking = NativeModules.Linking;
 const { AudioModule } = NativeModules;
 class Info1 extends React.Component {
@@ -26,7 +29,7 @@ class Info1 extends React.Component {
         <VrButton
           onEnter={() =>
             NativeModules.LinkingManager.openURL(
-              "https://quizizz.com/admin/quiz/6333d05803d606001e021dcd?source=quiz_share"
+              "https://quizizz.com/join/quiz/6333d05803d606001e021dcd/start"
             ).catch((err) => console.error("An error occurred", err))
           }
         >
@@ -72,17 +75,32 @@ class Info extends React.Component {
   }
 }
 export default class Dtl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      playerState: new MediaPlayerState({ autoPlay: false, muted: false }), // init with muted, autoPlay
+    };
+  }
   render() {
-    AudioModule.playEnvironmental({
-      source: asset("mp3.mp3"),
-      volume: 1, // play at 3/10 original volume,
-      loop: false,
-    });
+    // AudioModule.playEnvironmental({
+    //   source: asset("mp3.mp3"),
+    //   volume: 1, // play at 3/10 original volume,
+    //   loop: false,
+    // });
     return (
       <View style={styles.panel}>
         <View style={styles.greetingBox}>
           <Text>Visualization of Binary Search </Text>
-          <Video source={asset("mp4.mp4")} style={styles.image} muted="false" />
+          <Video
+            source={asset("mp4.mp4")}
+            style={styles.image}
+            muted={false}
+            playerState={this.state.playerState}
+          />
+          <VideoControl
+            style={{ height: 20, width: 950 }}
+            playerState={this.state.playerState}
+          />
           {/* <Video ></Video> */}
         </View>
       </View>

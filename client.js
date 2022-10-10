@@ -3,6 +3,7 @@
 
 import { ReactInstance } from "react-360-web";
 import { Surface } from "react-360-web";
+
 function init(bundle, parent, options = {}) {
   const SIZE = 300;
   const r360 = new ReactInstance(bundle, parent, {
